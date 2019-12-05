@@ -9,8 +9,8 @@ class Movimiento extends Model
     protected $table = 'movimientos';
 
     //Many To One
-    public function cuentas(){
+    public function cuenta(){
         return $this->belongsTo('App\Cuenta', 
-                        'id_cuenta');
+                        'cuenta_id');
     }
 }
