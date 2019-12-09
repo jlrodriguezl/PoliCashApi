@@ -22,3 +22,6 @@ Route::get('/', function () {
     }    
     return view('welcome');
 });
+
+Route::post('/api/registrar', 'PersonaController@registrar');
+Route::post('/api/login', 'PersonaController@login');
