@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Movimiento extends Model
 {
     protected $table = 'movimientos';
+    public $timestamps = false;
 
     //Many To One
     public function cuenta(){

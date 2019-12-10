@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use App\Persona;
+use App\Cuenta;
 
 class PersonaController extends Controller
 {
@@ -50,12 +51,28 @@ class PersonaController extends Controller
                 //Guardar Usuario
                 try{
                     $persona->save();
-                    //Respuesta
-                    $data = array(
-                        'status' => 'OK',
-                        'code' => 200,
-                        'message' => 'Usuario registrado correctamente'
-                    );
+                    //Registrar cuenta con saldo 0
+                    $cuenta = new Cuenta();
+                    $cuenta->id = $persona->celular;
+                    $cuenta->saldo = 0;
+                    $cuenta->tipo_cuenta = "CA";
+                    $cuenta->persona_id = $id;
+                    try{
+                        $cuenta->save();
+                        //Respuesta
+                        $data = array(
+                            'status' => 'OK',
+                            'code' => 200,
+                            'message' => 'Usuario registrado correctamente'
+                        );
+                    }catch(\Exception $e){                    
+                        $data = array(
+                            'status' => 'error',
+                            'code' => 400,
+                            'message' => $e->getMessage()
+                        );
+                     }
+                    
                 }catch(\Exception $e){                    
                     $data = array(
                         'status' => 'error',

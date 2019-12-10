@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cuenta extends Model
 {
     protected $table = 'cuentas';
+    public $timestamps = false;
     
     //One To Many
     public function movimientos(){

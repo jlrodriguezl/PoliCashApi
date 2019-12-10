@@ -25,3 +25,4 @@ Route::get('/', function () {
 
 Route::post('/api/registrar', 'PersonaController@registrar');
 Route::post('/api/login', 'PersonaController@login');
+Route::post('/api/registrarMov', 'MovimientoController@registrarMov');
