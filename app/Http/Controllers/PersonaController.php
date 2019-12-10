@@ -12,63 +12,70 @@ class PersonaController extends Controller
 {
     public function registrar(Request $request)
     {
-        //Recibir lo que viene por POST
-        $json = $request->input('json', null);
-        //Codificar json en objeto de PHP
-        $params = \json_decode($json);
-        //Asignar valores a variables php
-        $id = (!is_null($json) && isset($params->id)) ? 
-            $params->id : null;
-        $tipo_id = (!is_null($json) && isset($params->tipo_id)) ? 
-            $params->tipo_id : null;
-        $nombres = (!is_null($json) && isset($params->nombres)) ? 
-            $params->nombres : null;
-        $apellidos = (!is_null($json) && isset($params->apellidos)) ? 
-            $params->apellidos : null;
-        $celular = (!is_null($json) && isset($params->celular)) ? 
-            $params->celular : null;
-        $correo = (!is_null($json) && isset($params->correo)) ? 
-            $params->correo : null;
-        $password = (!is_null($json) && isset($params->password)) ? 
-            $params->password : null;    
-
-        //Armar objeto Persona
-        $per = new Persona();
-        $per->id = $id;
-        $per->tipo_id = $tipo_id;
-        $per->nombres = $nombres;
-        $per->apellidos = $apellidos;
-        $per->celular = $celular;
-        $per->correo = $correo;
-        //Encriptar Contraseña
-        $pwd = hash('sha256', $password);
-        $per->password = $pwd;
+       //Recibir lo que viene por POST
+       //Por defecto será null si no llega
+       $json = $request->input('json', null);
+       //Codificar el json en un objeto reconocido por PHP
+       $params = json_decode($json);
         
-        //Validar si el usuario ya existe
-        $per_existe = Persona::where('id', '=', $id)->first();
+       //Asignar valores a variables php
+       $id = (!is_null($json) && isset($params->id)) ? $params->id : null;
+       $tipo_id = (!is_null($json) && isset($params->tipo_id)) ? $params->tipo_id : null;
+       $nombres = (!is_null($json) && isset($params->nombres)) ? $params->nombres : null;
+       $apellidos = (!is_null($json) && isset($params->apellidos)) ? $params->apellidos : null;
+       $celular = (!is_null($json) && isset($params->celular)) ? $params->celular : null;
+       $correo = (!is_null($json) && isset($params->correo)) ? $params->correo : null;
+       $password = (!is_null($json) && isset($params->password)) ? $params->password : null;
+    
+       //Validaciones de obligatoriedad en BD
+       if(!is_null($id) && !is_null($tipo_id) && !is_null($nombres) && !is_null($apellidos) 
+                    && !is_null($celular) && !is_null($correo) && !is_null($password)){
+            //Crear el usuario
+            $persona = new Persona();
+            $persona->id = $id;
+            $persona->tipo_id = $tipo_id;
+            $persona->nombres = $nombres;
+            $persona->apellidos = $apellidos;
+            $persona->celular = $celular;
+            $persona->correo = $correo;
 
-        if(!isset($per_existe)){
-            //Guardar usuario
-            try{
-                $per->save();
-            }catch(Exception $e){
+            //Generar contraseña cifrada
+            $pwd = hash('sha256', $password);
+            $persona->password = $pwd;            
+            
+            //Validar que el usuario no exista en la BD
+            $isset_per = Persona::where('id', '=', $id)->first();
+            
+            if(!isset($isset_per)){                
+                //Guardar Usuario
+                try{
+                    $persona->save();
+                    //Respuesta
+                    $data = array(
+                        'status' => 'OK',
+                        'code' => 200,
+                        'message' => 'Usuario registrado correctamente'
+                    );
+                }catch(\Exception $e){                    
+                    $data = array(
+                        'status' => 'error',
+                        'code' => 400,
+                        'message' => $e->getMessage()
+                    );
+                 }
+            }else{
                 $data = array(
                     'status' => 'error',
                     'code' => 400,
-                    'message' => $e->getMessage()
+                    'message' => 'Usuario ya existe'
                 );
             }
-            //Respuesta
-            $data = array(
-                'status' => 'ok',
-                'code' => 200,
-                'message' => 'Usuario registrado correctamente'
-            );
+
         }else{
             $data = array(
                 'status' => 'error',
                 'code' => 400,
-                'message' => 'El usuario ya existe'
+                'message' => 'Faltan datos por diligenciar'
             );
         }
         return response()->json($data, 200);
