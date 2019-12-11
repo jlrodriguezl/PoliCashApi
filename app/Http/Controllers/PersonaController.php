@@ -12,7 +12,7 @@ use App\Cuenta;
 class PersonaController extends Controller
 {
     public function registrar(Request $request)
-    {
+    {       
        //Recibir lo que viene por POST
        //Por defecto será null si no llega
        $json = $request->input('json', null);
@@ -100,7 +100,28 @@ class PersonaController extends Controller
 
     public function login(Request $request)
     {
-        echo "Acción Login";
-        die();
+       //Recibir lo que viene por POST
+       //Por defecto será null si no llega
+       $json = $request->input('json', null);
+       //Codificar el json en un objeto reconocido por PHP
+       $params = json_decode($json);
+        
+       //Generar contraseña cifrada
+       $pwd = hash('sha256', $params->contrasena);       
+
+       $user = Persona::where(
+           array(
+               'tipo_id' =>  $params->tipoId,
+               'id' => $params->identificacion,
+               'password' => $pwd
+           )
+        )->first();
+
+        if(!is_null($user)){
+            $data =  1;
+        }else{
+            $data = 0;
+        }
+        return $data;
     }
 }
