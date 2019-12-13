@@ -83,4 +83,14 @@ class MovimientoController extends Controller
         }
         return response()->json($data, 200);
     }
+    public function consultarMov($idCuenta){
+        $movs = Movimiento::Where('cuenta_id','=',idCuenta)->get();
+        return response ()->json(
+
+        array(
+            'movimientos' =>  $movs,
+            'status' => 'succes',
+      ),200
+    );
+  }
 }
