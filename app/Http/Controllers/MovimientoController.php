@@ -18,14 +18,14 @@ class MovimientoController extends Controller
        $params = json_decode($json);
         
        //Asignar valores a variables php
-       $tipo_movi = (!is_null($json) && isset($params->tipo_movi)) ? $params->tipo_movi : null;
-       $fecha_movi = (!is_null($json) && isset($params->fecha_movi)) ? $params->fecha_movi : null;
-       $desc_movi = (!is_null($json) && isset($params->desc_movi)) ? $params->desc_movi : null;
-       $valor_movi = (!is_null($json) && isset($params->valor_movi)) ? $params->valor_movi : null;
-       $estado_movi = (!is_null($json) && isset($params->estado_movi)) ? $params->estado_movi : null;
-       $cod_aut_movi = (!is_null($json) && isset($params->cod_aut_movi)) ? $params->cod_aut_movi : null;
-       $detalle_movi = (!is_null($json) && isset($params->detalle_movi)) ? $params->detalle_movi : null;
-       $cuenta_id = (!is_null($json) && isset($params->cuenta_id)) ? $params->cuenta_id : null;
+       $tipo_movi = (!is_null($json) && isset($params->tipoMovimiento)) ? $params->tipoMovimiento : null;
+       $fecha_movi = (!is_null($json) && isset($params->fechaMovimiento)) ? $params->fechaMovimiento : null;
+       $desc_movi = (!is_null($json) && isset($params->descMovimiento)) ? $params->descMovimiento : null;
+       $valor_movi = (!is_null($json) && isset($params->valorMovimiento)) ? $params->valorMovimiento : null;
+       $estado_movi = (!is_null($json) && isset($params->estadoMovimiento)) ? $params->estadoMovimiento : null;
+       $cod_aut_movi = (!is_null($json) && isset($params->codigoAuth)) ? $params->codigoAuth : null;
+       $detalle_movi = (!is_null($json) && isset($params->detMovimiento)) ? $params->detMovimiento : null;
+       $cuenta_id = (!is_null($json) && isset($params->idCuenta)) ? $params->idCuenta : null;
        
        //Crear el movimiento       
        $movimiento = new Movimiento();
