@@ -20,13 +20,13 @@ class PersonaController extends Controller
        $params = json_decode($json);
         
        //Asignar valores a variables php
-       $id = (!is_null($json) && isset($params->id)) ? $params->id : null;
-       $tipo_id = (!is_null($json) && isset($params->tipo_id)) ? $params->tipo_id : null;
+       $id = (!is_null($json) && isset($params->identificacion)) ? $params->identificacion : null;
+       $tipo_id = (!is_null($json) && isset($params->tipoId)) ? $params->tipoId : null;
        $nombres = (!is_null($json) && isset($params->nombres)) ? $params->nombres : null;
        $apellidos = (!is_null($json) && isset($params->apellidos)) ? $params->apellidos : null;
        $celular = (!is_null($json) && isset($params->celular)) ? $params->celular : null;
        $correo = (!is_null($json) && isset($params->correo)) ? $params->correo : null;
-       $password = (!is_null($json) && isset($params->password)) ? $params->password : null;
+       $password = (!is_null($json) && isset($params->contrasena)) ? $params->contrasena : null;
     
        //Validaciones de obligatoriedad en BD
        if(!is_null($id) && !is_null($tipo_id) && !is_null($nombres) && !is_null($apellidos) 
